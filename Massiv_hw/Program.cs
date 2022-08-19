@@ -4,16 +4,39 @@ using System.Collections.Generic;
 namespace Massiv_hw
 {
     class Program
-
+      
 
     {
         static void Main(string[] args)
         {
+
+            
+            List<Uchastniki> uchastniki = new List<Uchastniki>();
+
+
+            List<string> strings = new List<string>();
+            using (StreamReader reader = new(@"C:\Users\З - 1\Documents\Белов\15.08.2022\file\save.txt"))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    //Console.WriteLine(line);
+                    strings.Add(line);
+                }
+                foreach (var item in strings)
+                {
+
+                    string[]sub=item.Split('!');
+                    uchastniki.Add(new Uchastniki(int.Parse(sub[0]), sub[1], int.Parse(sub[2])));
+                }
+            }
             while (true)
             {
-
+                              
+            
+                  
                 int count = Uchastniki.vod_age("Введите кол-во участников: ");
-                List<Uchastniki> uchastniki = new List<Uchastniki>();
+                
                 for (int i = 0; i < count; i++)
                 {
                     uchastniki.Add(new Uchastniki(i + 1));
@@ -24,7 +47,9 @@ namespace Massiv_hw
                     Console.WriteLine("Все участники: ");
                     foreach (var item in uchastniki)
                     {
+
                         Console.WriteLine(item.ToString());
+
                     }
                 }
 
@@ -38,7 +63,8 @@ namespace Massiv_hw
                     "[1] Добавить участника\n" +
                     "[2] Удалитьт участника\n" +
                     "[3] Редактировать возраст участника\n" +
-                    "[4] Редактировать имя учстника");
+                    "[4] Редактировать имя учстника\n"+
+                    "[5] Выход");
                 switch (Console.ReadLine())
                 {
                     case "1":
@@ -60,12 +86,61 @@ namespace Massiv_hw
                         Console.WriteLine("Введите новое имя: ");
                         uchastniki.ElementAt(index_name).Name = String.Format(Console.ReadLine());
                         vyvod(); break;
-                    default: break;
+                   
+                    case "5":
+
+
+                        using (StreamWriter writer = new(@"C:\Users\З - 1\Documents\Белов\15.08.2022\file\save.txt", true))
+                        {
+                            writer.WriteLine("все записалось");
+
+                            foreach (var item in uchastniki)
+                            {
+                                writer.WriteLine(item);
+                            }
+                            writer.Close();
+                        }
+
+
+
+                        break ;
+
+                    default:{
+                            break;
+                        }
+
 
                 }
+                /*using (StreamWriter writer = new(@"C:\Users\З - 1\Documents\Белов\15.08.2022\file\save.txt", false))
+                {
+                    writer.WriteLine("все записалось");
+
+                    foreach (var item in uchastniki)
+                    {
+                        writer.WriteLine(item.Name+"_"+item.Age);
+                       //writer.WriteLine(item);
+                    }
+                    writer.Close();
+                }*/
+               
 
             }
+           
+
+
+
+
+            
+
+
+
+
+
+
+
         }
     }
+   
+
 }
 
